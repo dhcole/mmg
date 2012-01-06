@@ -7,56 +7,13 @@
     <script type='text/javascript' src='lib/modestmaps.js'></script>
     <script type='text/javascript' src='lib/wax.mm.min.js'></script>
     <script type='text/javascript' src='src/mmg.js'></script>
+    <script type='text/javascript' src='lib/jquery.js'></script>
+    <script type='text/javascript' src='lib/underscore.js'></script>
+    <script type='text/javascript' src='src/site.js'></script>
   </head>
   <body>
     <div class='column'>
-      <h2>mmg</h2>
       <div id='map'></div>
-      <div class='download'>download: <a href='https://raw.github.com/mapbox/mmg/gh-pages/src/mmg.js'>mmg.js</a></div>
-      <p><strong>mmg</strong> is a quick method of getting GeoJSON
-      into Modest Maps. It requires the Modest Maps 1.x.x work for the <code>addLayer</code>
-      API. There are no other dependencies, and it's designed to work cross-browser.</p>
-      <p>It's a chaining API, so the constructor, <code>mmg()</code>, takes no arguments,
-      but returns an object with <code>.factory(function(x) { return elem; })</code> and
-      <code>.geojson(obj)</code> methods. It'll accept any GeoJSON object - bring your own
-      AJAX and JSON.parse if necessary.</p>
-      <p>The <strong>factory method</strong> takes a GeoJSON feature object, and returns an
-      HTML element that will be added as a marker for that feature. The element can have
-      childNodes, and if you want the markers to be clickable, or any other interaction to be
-      added, attach event listeners to the elements in your factory method.</p>
-      <p>It's based heavily on <a href='https://github.com/shawnbot'>Shawn Allen's</a>
-      GeoJSON example.</p>
-      <script src="https://gist.github.com/1477030.js?file=example.js"></script>
     </div>
-    <script>
-      wax.tilejson('http://a.tiles.mapbox.com/v3/tmcw.boldness.jsonp',
-        function(tj) {
-          var m = new MM.Map('map', new wax.mm.connector(tj))
-            .setCenterZoom(new MM.Location(0, 0), 2);
-
-          m.addLayer(mmg().geojson(random_geojson));
-
-          var pt = { 'type': 'FeatureCollection',
-            'features': [{ 'type': 'Feature',
-            'geometry': {
-              'type': 'Point',
-              'coordinates': [-40.0, 30.0]
-            },
-            'properties': { 'name': 'Tom' }
-          }]};
-
-          var tomLayer = mmg().factory(function(x) {
-            var d = document.createElement('div');
-            d.className = 'my-custom';
-            d.innerHTML = x.properties.name;
-            d.onclick = function() {
-              alert('hi, ' + this.innerHTML);
-            };
-            return d;
-          }).geojson(pt);
-
-          m.addLayer(tomLayer);
-        });
-    </script>
   </body>
 </html>
